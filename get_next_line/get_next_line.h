@@ -16,5 +16,7 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(char *s);
 int		ft_strlen(char *s);
 size_t	ft_strlcpy(char *dst, char *src, size_t size);
+char	*extract_line(char *stash)
+char	*update_stash(char *stash)
 
 #endif
