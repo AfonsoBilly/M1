@@ -1,75 +1,28 @@
+
 #include "get_next_line.h"
-
-char	*extract_line(char *stash)
-{
-	int		i;
-	char	*line;
-
-	if (!stash || !stash[0])
-		return (NULL);
-	i = 0;
-	while (stash[i] && stash[i] != '\n')
-		i++;
-	line = malloc(i + (stash[i] == '\n') + 1);
-	if (!line)
-		return (NULL);
-	i = 0;
-	while (stash[i] && stash[i] != '\n')
-	{
-		line[i] = stash[i];
-		i++;
-	}
-	if (stash[i] == '\n')
-		line[i++] = '\n';
-	line[i] = '\0';
-	return (line);
-}
-
-char	*update_stash(char *stash)
-{
-	int		i;
-	int		j;
-	char	*new_stash;
-
-	i = 0;
-	while (stash[i] && stash[i] != '\n')
-		i++;
-	if (!stash[i])
-	{
-		free(stash);
-		return (NULL);
-	}
-	new_stash = malloc(ft_strlen(stash) - i);
-	if (!new_stash)
-		return (NULL);
-	i++;
-	j = 0;
-	while (stash[i])
-		new_stash[j++] = stash[i++];
-	new_stash[j] = '\0';
-	free(stash);
-	return (new_stash);
-}
 
 char	*get_next_line(int fd)
 {
-	static char	*stash;
-	char		buffer[BUFFER_SIZE + 1];
+	static char	buffer[BUFFER_SIZE + 1];
 	char		*line;
-	int			bytes_read;
+	ssize_t		bytes;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	bytes_read = 1;
-	while (!ft_strchr(stash, '\n') && bytes_read > 0)
+	line = NULL;
+	bytes = 0;
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+		return (buffer[0] = '\0', NULL);
+	while (*buffer || (bytes = read(fd, buffer, BUFFER_SIZE)) > 0)
 	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read < 0)
-			return (free(stash), stash = NULL, NULL);
-		buffer[bytes_read] = '\0';
-		stash = ft_strjoin(stash, buffer);
+		if (bytes > 0)
+			buffer[bytes] = '\0';
+		line = ft_strjoin(line, buffer);
+		if (!line)
+			return (buffer[0] = '\0', NULL);
+		if (ft_findnl(buffer))
+			return (ft_shiftbuff(buffer), line);
+		*buffer = '\0';
 	}
-	line = extract_line(stash);
-	stash = update_stash(stash);
+	if (! line || !*line)
+		return (free(line), NULL);
 	return (line);
 }
