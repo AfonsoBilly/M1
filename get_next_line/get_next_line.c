@@ -22,7 +22,7 @@ char	*get_next_line(int fd)
 			return (ft_shiftbuff(buffer), line);
 		*buffer = '\0';
 	}
-	if (! line || !*line)
+	if (!line || !*line)
 		return (free(line), NULL);
 	return (line);
 }
