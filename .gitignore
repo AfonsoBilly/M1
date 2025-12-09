@@ -1,7 +1,0 @@
-# Object files
-*.o
-*.a
-
-# Test files
-test_*
-a.out
