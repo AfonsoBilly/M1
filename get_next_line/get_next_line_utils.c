@@ -1,8 +1,9 @@
+
 #include "get_next_line.h"
 
-int	ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (s && s[i])
@@ -56,6 +57,8 @@ void	ft_shiftbuff(char *buff)
 	int	i;
 	int	j;
 
+	if (!buff)
+		return ;
 	i = 0;
 	while (buff[i] && buff[i] != '\n')
 		i++;
