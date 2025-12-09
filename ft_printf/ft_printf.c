@@ -10,7 +10,7 @@ static int	ft_handle_conversion(char specifier, va_list args)
 	else if (specifier == 's')
 		count += ft_print_str(va_arg(args, char *));
 	else if (specifier == 'p')
-		count += ft_print_ptr(va_arg(args, unsigned long));
+		count += ft_print_ptr((unsigned long)va_arg(args, void *));
 	else if (specifier == 'd' || specifier == 'i')
 		count += ft_print_nbr(va_arg(args, int));
 	else if (specifier == 'u')
@@ -37,12 +37,17 @@ int	ft_printf(const char *format, ...)
 	i = 0;
 	while (format[i])
 	{
-		if (format[i] == '%' && format[i + 1])
+		if (format[i] == '%')
 		{
-			i++;
-			count += ft_handle_conversion(format[i], args);
+			if (format[i + 1])
+			{
+				i++;
+				count += ft_handle_conversion(format[i], args);
+			}
+			else
+				count += ft_print_char('%');
 		}
-		else if (format[i] != '%')
+		else
 			count += ft_print_char(format[i]);
 		i++;
 	}
