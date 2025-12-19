@@ -1,42 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adiogo-f <adiogo-f@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/04 17:53:47 by adiogo-f          #+#    #+#             */
-/*   Updated: 2025/12/19 18:33:50 by adiogo-f         ###   ########.fr       */
+/*   Created: 2025/12/04 18:20:47 by adiogo-f          #+#    #+#             */
+/*   Updated: 2025/12/19 18:55:51 by adiogo-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-/* #include <stdio.h>
-#include <fcntl.h> */
+#include "get_next_line_bonus.h"
 
 char	*get_next_line(int fd)
 {
-	static char	buffer[BUFFER_SIZE + 1];
+	static char	buffer[OPEN_MAX][BUFFER_SIZE + 1];
 	char		*line;
 	ssize_t		bytes;
 
 	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (buffer[0] = '\0', NULL);
+		return (buffer[fd][0] = '\0', NULL);
 	while (1)
 	{
-		if (!*buffer)
+		if (!*buffer[fd])
 		{
-			bytes = read_buffer(fd, buffer);
+			bytes = read_buffer(fd, buffer[fd]);
 			if (bytes <= 0)
 				break ;
 		}
-		line = ft_strjoin(line, buffer);
+		line = ft_strjoin(line, buffer[fd]);
 		if (!line)
-			return (buffer[0] = '\0', NULL);
-		if (ft_findnl(buffer))
-			return (ft_shiftbuff(buffer), line);
-		*buffer = '\0';
+			return (buffer[fd][0] = '\0', NULL);
+		if (ft_findnl(buffer[fd]))
+			return (ft_shiftbuff(buffer[fd]), line);
+		*buffer[fd] = '\0';
 	}
 	if (!line || !*line)
 		return (free(line), NULL);

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adiogo-f <adiogo-f@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/04 18:22:09 by adiogo-f          #+#    #+#             */
-/*   Updated: 2025/12/19 19:05:42 by adiogo-f         ###   ########.fr       */
+/*   Created: 2025/12/04 18:23:50 by adiogo-f          #+#    #+#             */
+/*   Updated: 2025/12/19 18:34:53 by adiogo-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(const char *s)
 {
